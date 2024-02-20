@@ -4,7 +4,6 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import UserPosts from "./userPosts";
 import UserAlbums from "./userAlbums";
 import UserTodos from "./userTodos";
 
@@ -72,22 +71,12 @@ export default function Dashboard() {
   }, []);
 
   const getUserPost = () => {
-    setShowPostData(true);
-    setShowAlbumData(false);
-    setShowTodosData(false);
+    router.push("dashboard/user-posts");
   };
 
-  const getUserAlbum = () => {
-    setShowAlbumData(true);
-    setShowPostData(false);
-    setShowTodosData(false);
-  };
+  const getUserAlbum = () => {};
 
-  const getUserTodos = () => {
-    setShowTodosData(true);
-    setShowAlbumData(false);
-    setShowPostData(false);
-  };
+  const getUserTodos = () => {};
 
   const handleLogout = () => {
     router.push("/");
@@ -123,7 +112,7 @@ export default function Dashboard() {
               <div className="font-semibold text-5xl tracking-tight">
                 {userPost.length}
               </div>
-              <div className="font-normal">Total Albums</div>
+              <div className="font-normal">Total Posts</div>
             </div>
 
             <div
@@ -135,7 +124,7 @@ export default function Dashboard() {
               <div className="font-semibold text-5xl tracking-tight">
                 {userAlbum.length}
               </div>
-              <div className="font-normal">Albums</div>
+              <div className="font-normal">Total Albums</div>
             </div>
             <div
               onClick={getUserTodos}
@@ -149,9 +138,9 @@ export default function Dashboard() {
               <div className="font-normal">Todo List</div>
             </div>
           </div>
-          {showPostData && <UserPosts userPost={userPost} />}
+          {/* {showPostData && <UserPosts userPost={userPost} />}
           {showAlbumData && <UserAlbums userAlbum={userAlbum} />}
-          {showTodosData && <UserTodos userTodos={userTodos} />}
+          {showTodosData && <UserTodos userTodos={userTodos} />} */}
         </div>
       )}
     </>

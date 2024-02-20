@@ -3,7 +3,7 @@ import ReactPaginate from "react-paginate";
 
 interface PaginationProps {
   pageCount: number;
-  onPageChange: (selectedItem: { selected: number }) => void;
+  onPageChange?: (selectedItem: { selected: number }) => void;
 }
 const Pagination = ({ pageCount, onPageChange }: PaginationProps) => {
   return (
