@@ -45,3 +45,29 @@ body {
     }
   }
 }
+
+.pagination_controls {
+  @apply flex items-center justify-center space-x-3 my-5;
+
+  button {
+    @apply text-white py-1 px-3 rounded;
+
+    &.disabled {
+      @apply bg-gray-400 text-black;
+    }
+
+    &.active {
+      @apply bg-red-500;
+    }
+
+  }
+
+  a {
+    @apply text-white py-1 px-3 rounded;
+
+    &.active {
+      @apply bg-red-500 text-white;
+    }
+  }
+
+}
