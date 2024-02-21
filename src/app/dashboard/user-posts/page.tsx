@@ -31,10 +31,10 @@ const UserPosts = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
 
-  // const handleChange = (selected: { selected: number }) => {
-  //   router.push(`user-posts?page=${currentPage + 1}`);
-  //   setCurrentPage(selected.selected);
-  // };
+  const handleChange = (selected: { selected: number }) => {
+    router.push(`user-posts?page=${page + 1}`);
+    setCurrentPage(selected.selected);
+  };
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -128,10 +128,7 @@ const UserPosts = () => {
           className="pagination_controls"
         />
 
-        {/* <Pagination
-          pageCount={Math.ceil(userPost?.length / itemsPerPage)}
-          onPageChange={handleChange}
-        /> */}
+        {/* <Pagination pageCount={Math.ceil(userPost?.length / itemsPerPage)} /> */}
       </div>
     </div>
   );

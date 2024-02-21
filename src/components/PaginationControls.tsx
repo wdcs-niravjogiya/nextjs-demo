@@ -20,7 +20,7 @@ const PaginationControls = ({
   const searchParams = useSearchParams();
   const page = searchParams.get("page") || 1;
   const per_page = searchParams.get("per_page") || 5;
-  console.log("page---", page);
+  // console.log("page---", page);
 
   const handlePrev = () => {
     const prevPage = Number(page) - 1;
