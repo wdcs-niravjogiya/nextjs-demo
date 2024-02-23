@@ -1,7 +1,7 @@
 "use client";
 import { log } from "console";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import React, { ReactNode, useEffect, useState } from "react";
 
 interface Props {
@@ -18,8 +18,8 @@ const PaginationControls = ({
 }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const page = searchParams.get("page") || 1;
-  const per_page = searchParams.get("per_page") || 5;
+  let page = searchParams.get("page") || 1;
+  const per_page = searchParams.get("per_page") || 3;
   // console.log("page---", page);
 
   const handlePrev = () => {
@@ -41,7 +41,7 @@ const PaginationControls = ({
 
   let totalPagesCount: any[] = [];
   for (let i = 1; i < Number(totalPages); i++) {
-    i = i + 4;
+    i = i + 2;
     totalPagesCount.push(i);
   }
 
@@ -53,6 +53,9 @@ const PaginationControls = ({
   const [value, setValue] = useState(per_page);
   const handleChangeEvent = (e: any) => {
     let selectedValue = e.target.value;
+    if (selectedValue !== per_page) {
+      page = 1;
+    }
     setValue(selectedValue);
     router.push(`/dashboard/user-posts?page=${page}&per_page=${selectedValue}`);
     console.log("value", selectedValue);

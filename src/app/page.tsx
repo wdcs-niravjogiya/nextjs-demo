@@ -1,7 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const userURL = "https://jsonplaceholder.typicode.com/users?email=";
 const postUrl = "https://jsonplaceholder.typicode.com/posts?userId=";
@@ -34,6 +35,21 @@ function Login() {
     fetchUserData();
   };
 
+  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const formData = new FormData(e.currentTarget);
+  //   const response = await signIn("credentials", {
+  //     email: formData.get("email"),
+  //     // password: formData.get("password"),
+  //     redirect: false,
+  //   });
+
+  //   console.log({ response });
+  //   if (!response?.error) {
+  //     router.push("/dashboard");
+  //     router.refresh();
+  //   }
+  // };
   if (!user) return null;
   return (
     <>
@@ -63,11 +79,12 @@ function Login() {
                       Email
                     </label>
                     <input
-                      type="text"
-                      value={userInput}
+                      type="email"
+                      // value={userInput}
                       onChange={handleOnChange}
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Email"
+                      name="email"
                     />
                   </div>
                   <div className="text-center mt-6">

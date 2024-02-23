@@ -2,7 +2,12 @@
 import PaginationControls from "@/components/PaginationControls";
 import Pagination from "@/components/pagination/Pagination";
 import axios from "axios";
-import { useParams, useSearchParams, useRouter } from "next/navigation";
+import {
+  useParams,
+  useSearchParams,
+  useRouter,
+  usePathname,
+} from "next/navigation";
 import React, { useEffect, useState } from "react";
 interface Props {
   userId: number;
@@ -14,6 +19,8 @@ const postUrl = "https://jsonplaceholder.typicode.com/posts?userId=";
 const UserPosts = () => {
   const params = useParams();
   const newParams = useSearchParams();
+  const pathName = usePathname();
+  console.log("pathName", pathName);
   console.log("params", params);
   console.log("newparams", newParams.get("page"));
 
@@ -22,7 +29,7 @@ const UserPosts = () => {
   const router = useRouter();
 
   const page = newParams.get("page") ?? "1";
-  const per_page = newParams.get("per_page") || "5";
+  const per_page = newParams.get("per_page") || "3";
   const totalPages = userPost?.length;
   const start = (Number(page) - 1) * Number(per_page);
   const end = start + Number(per_page);
