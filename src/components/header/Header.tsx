@@ -1,12 +1,13 @@
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
+import SessionClient from "../../app/nextauth/SessionClient";
 
 const Header = async () => {
-  const session = await getServerSession();
   return (
     <div>
-      <nav>
+      <SessionClient />
+      {/* <nav>
         {session && (
           <Link className="text-white" href="/api/auth/signout">
             LogOut
@@ -17,7 +18,7 @@ const Header = async () => {
             Login
           </Link>
         )}
-      </nav>
+      </nav> */}
     </div>
   );
 };

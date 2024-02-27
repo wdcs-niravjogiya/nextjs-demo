@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import UserAlbums from "./userAlbums";
 import UserTodos from "./userTodos";
+import SessionClient from "../nextauth/SessionClient";
 
 export interface User {
   email: string;
@@ -27,6 +28,7 @@ export default function Dashboard() {
   const [showAlbumData, setShowAlbumData] = useState(false);
   const [showTodosData, setShowTodosData] = useState(false);
   const [loading, setLoading] = useState(true);
+  const session = SessionClient("");
 
   const router = useRouter();
   useEffect(() => {
@@ -68,7 +70,7 @@ export default function Dashboard() {
       }
     };
     fetchData();
-  }, []);
+  }, [router]);
 
   const getUserPost = () => {
     router.push("dashboard/user-posts");
@@ -77,12 +79,6 @@ export default function Dashboard() {
   const getUserAlbum = () => {};
 
   const getUserTodos = () => {};
-
-  const handleLogout = () => {
-    router.push("/");
-    localStorage.removeItem("userData");
-    setUser([]);
-  };
 
   return (
     <>
@@ -96,13 +92,14 @@ export default function Dashboard() {
         </div>
       ) : (
         <div className="h-screen w-screen max-w-[1200px] m-auto">
-          <div className="flex flex-wrap gap-4 justify-center pt-32">
-            <div className="font-semibold text-xl tracking-tight text-white w-full text-center">
+          <div className="flex flex-wrap gap-4 justify-center pt-12">
+            {/* <div className="font-semibold text-xl tracking-tight text-white w-full text-center">
               Email: {user.length > 0 ? user[0]?.email : "nouser"}
+              <br />
             </div>
             <div className="font-semibold text-xl tracking-tight text-white w-full text-center">
               <button onClick={handleLogout}> Logout</button>
-            </div>
+            </div> */}
             <div
               onClick={getUserPost}
               className={`${

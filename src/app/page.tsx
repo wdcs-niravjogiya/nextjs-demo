@@ -3,25 +3,26 @@ import React, { FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-
+import SessionClient from "./nextauth/SessionClient";
 const userURL = "https://jsonplaceholder.typicode.com/users?email=";
 const postUrl = "https://jsonplaceholder.typicode.com/posts?userId=";
 function Login() {
   const [user, setUser] = useState([]);
   const [userPost, setUserPost] = useState([]);
   const [userInput, setUserInput] = useState("");
-
+  const [error, setError] = useState("");
+  const session = SessionClient("");
   const router = useRouter();
-  const fetchUserData = () => {
-    axios.get(`${userURL}${userInput}`).then((response) => {
-      setUser(response.data);
-      console.log("Login Page", response.data);
-      localStorage.setItem("userData", JSON.stringify(response.data));
-    });
-  };
-
-  const clearUserData = () => {
-    setUser([]);
+  const fetchUserData = async () => {
+    try {
+      const response = axios.get(`${userURL}${userInput}`);
+      setUser((await response).data);
+      console.log("Login Page", (await response).data);
+      localStorage.setItem("userData", JSON.stringify((await response).data));
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      setError("Email not found"); // Set error message
+    }
   };
 
   const handleOnChange = (e: any) => {
@@ -30,30 +31,63 @@ function Login() {
     localStorage.setItem("userData", value);
   };
 
-  const handleSubmit = (e: any) => {
+  // const handleSubmit = (e: any) => {
+  //   e.preventDefault();
+  //   fetchUserData();
+  // };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     fetchUserData();
+
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+
+    // console.log("Fetching user data...");
+    // const response = await axios.get(`${userURL}${email}`);
+    // const userData = response.data;
+
+    // console.log("User data:", userData);
+
+    // setUser(userData);
+    // localStorage.setItem("userData", JSON.stringify(userData));
+
+    if (!error) {
+      console.log("Signing in...");
+      await signIn("credentials", {
+        email,
+        redirect: false,
+      });
+      if (userInput.trim() !== "" && session !== "" && session !== undefined) {
+        router.push("/dashboard");
+      } else {
+        alert("Please enter email Id");
+        router.push("/");
+      }
+    }
+
+    // console.log("SignIn response:", signInResponse);
+
+    // if (!signInResponse?.error) {
+    // console.log("Redirecting to /dashboard...");
+    // router.push("/dashboard");
+    // router.refresh();
+    // }
   };
 
-  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const formData = new FormData(e.currentTarget);
-  //   const response = await signIn("credentials", {
-  //     email: formData.get("email"),
-  //     // password: formData.get("password"),
-  //     redirect: false,
-  //   });
+  const handleLogin = () => {
+    // if (userInput.trim() !== "" && session !== "" && session !== undefined) {
+    //   router.push("/dashboard");
+    // } else {
+    //   alert("Please enter email Id");
+    //   router.push("/");
+    // }
+  };
 
-  //   console.log({ response });
-  //   if (!response?.error) {
-  //     router.push("/dashboard");
-  //     router.refresh();
-  //   }
-  // };
   if (!user) return null;
   return (
     <>
-      <div className="container mx-auto px-4 h-screen">
+      <div className="container mx-auto px-4">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-4/12 px-4 ">
             <div className="relative bg-blue-50 flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
@@ -88,14 +122,12 @@ function Login() {
                     />
                   </div>
                   <div className="text-center mt-6">
+                    {/* <div className="text-red-500 text-center mt-2">
+                      Error: {error}
+                    </div> */}
+
                     <button
-                      onClick={() => {
-                        if (userInput.trim() !== "") {
-                          router.push("/dashboard");
-                        } else {
-                          alert("Please enter email Id");
-                        }
-                      }}
+                      // onClick={handleLogin}
                       className="bg-black text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="submit"
                     >
