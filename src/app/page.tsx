@@ -40,9 +40,6 @@ function Login() {
     e.preventDefault();
     fetchUserData();
 
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
-
     // console.log("Fetching user data...");
     // const response = await axios.get(`${userURL}${email}`);
     // const userData = response.data;
@@ -52,18 +49,32 @@ function Login() {
     // setUser(userData);
     // localStorage.setItem("userData", JSON.stringify(userData));
 
-    if (!error) {
-      console.log("Signing in...");
-      await signIn("credentials", {
+    console.log("Signing in...");
+    try {
+      const formData = new FormData(e.currentTarget);
+      const email = formData.get("email") as string;
+      const res = await signIn("credentials", {
         email,
         redirect: false,
+        callbackUrl: "/dashboard",
       });
-      if (userInput.trim() !== "" && session !== "" && session !== undefined) {
-        router.push("/dashboard");
+      console.log("Signing in", res);
+      if (res?.error) {
+        setError("Invalid credentials");
       } else {
-        alert("Please enter email Id");
-        router.push("/");
+        if (
+          userInput.trim() !== "" &&
+          session !== "" &&
+          session !== undefined
+        ) {
+          router.push("/dashboard");
+        } else {
+          alert("Please enter email Id");
+          router.push("/");
+        }
       }
+    } catch (err) {
+      console.log("catch Signing in", err);
     }
 
     // console.log("SignIn response:", signInResponse);

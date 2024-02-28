@@ -4,8 +4,13 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const SessionClient: React.FC = () => {
-  const { data: session } = useSession();
-  console.log("session--------------", session?.user?.email);
+  const { data: session, status } = useSession();
+  if (status === "authenticated") {
+    console.log("session?.user?.email--------------", session?.user?.email);
+    console.log("session--------------", session);
+  } else {
+    console.log("-----------------No session--------------");
+  }
   const router = useRouter();
 
   const handleLogout = () => {
@@ -17,10 +22,11 @@ const SessionClient: React.FC = () => {
 
   // useEffect(() => {
   //   const getSessionInfo = async () => {
-  //     const session = await getSession({}); // You can customize GetSessionOptions if needed
+  //     const session = await getSession(); // You can customize GetSessionOptions if needed
   //     setSessionValue(session ?? "");
   //   };
   //   getSessionInfo();
+  //   console.log("sessionValue", sessionValue);
   // }, []);
 
   return (
