@@ -29,19 +29,19 @@ const UserPosts = () => {
   const router = useRouter();
 
   const page = newParams.get("page") ?? "1";
-  const per_page = newParams.get("per_page") || "3";
+  const per_page = newParams.get("per_page") || "5";
   const totalPages = userPost?.length;
   const start = (Number(page) - 1) * Number(per_page);
   const end = start + Number(per_page);
   const postEntries = userPost?.slice(start, end);
 
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 5;
+  // const itemsPerPage = 5;
 
-  const handleChange = (selected: { selected: number }) => {
-    router.push(`user-posts?page=${page + 1}`);
-    setCurrentPage(selected.selected);
-  };
+  // const handleChange = (selected: { selected: number }) => {
+  //   router.push(`user-posts?page=${page + 1}`);
+  //   setCurrentPage(selected.selected);
+  // };
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -74,9 +74,9 @@ const UserPosts = () => {
 
   return (
     <div className="flex flex-col max-w-[1200px] m-auto">
-      <div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5 sm:px-6 lg:px-8">
-        <div className="py-2 inline-block min-w-full">
-          <h1 className="text-white my-5">Total Posts</h1>
+      <div className="overflow-x-auto ">
+        <div className="inline-block min-w-full">
+          <h1 className="text-white my-5 font-bold">Total Posts</h1>
           <div className="overflow-hidden">
             <table className="w-full">
               <thead className="bg-white border-b">
@@ -128,15 +128,15 @@ const UserPosts = () => {
             </table>
           </div>
         </div>
-        <PaginationControls
-          totalPages={totalPages}
-          hasPrevPage={start > 0}
-          hasNextPage={end < userPost.length}
-          className="pagination_controls"
-        />
 
         {/* <Pagination pageCount={Math.ceil(userPost?.length / itemsPerPage)} /> */}
       </div>
+      <PaginationControls
+        totalPages={totalPages}
+        hasPrevPage={start > 0}
+        hasNextPage={end < userPost.length}
+        className="pagination_controls"
+      />
     </div>
   );
 };

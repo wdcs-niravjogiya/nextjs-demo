@@ -32,13 +32,21 @@ const SessionClient: React.FC = () => {
   return (
     <div className="flex flex-col justify-center pt-32">
       <div className="font-semibold text-xl tracking-tight text-white w-full text-center">
-        User: {session ? session.user?.email : "No User"}
-        <br />
+        {session && session.user?.email}
       </div>
-      <div className="font-semibold text-xl tracking-tight text-white w-full text-center">
-        {session?.user?.email && (
-          <button onClick={handleLogout}> Logout</button>
+      <div className="w-full text-center">
+        <br />
+        {session && (
+          <button
+            className="text-white py-1 px-3 rounded bg-red-600"
+            onClick={handleLogout}
+          >
+            {" "}
+            Logout
+          </button>
         )}
+        <br></br>
+        {/* {session &&  */}
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ const PaginationControls = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   let page = searchParams.get("page") || 1;
-  const per_page = searchParams.get("per_page") || 3;
+  const per_page = searchParams.get("per_page") || 5;
   // console.log("page---", page);
 
   const handlePrev = () => {
@@ -41,7 +41,7 @@ const PaginationControls = ({
 
   let totalPagesCount: any[] = [];
   for (let i = 1; i < Number(totalPages); i++) {
-    i = i + 2;
+    i = i + 4;
     totalPagesCount.push(i);
   }
 

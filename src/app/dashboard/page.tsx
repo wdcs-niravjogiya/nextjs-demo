@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import UserAlbums from "./userAlbums";
 import UserTodos from "./userTodos";
-import SessionClient from "../nextauth/SessionClient";
+import SessionClient from "../../components/SessionClient";
 
 export interface User {
   email: string;
@@ -104,7 +104,7 @@ export default function Dashboard() {
               onClick={getUserPost}
               className={`${
                 showPostData ? "!bg-red-500" : "bg-gray-600"
-              } flex flex-col gap-2 h-40 text-white rounded-xl shadow-md p-6 w-[240px] bg-gray-600 backdrop-filter backdrop-blur-lg`}
+              } flex flex-col gap-2 h-40 text-white rounded-xl shadow-md p-6 w-[240px] bg-gray-600 backdrop-filter backdrop-blur-lg cursor-pointer`}
             >
               <div className="font-semibold text-5xl tracking-tight">
                 {userPost.length}
