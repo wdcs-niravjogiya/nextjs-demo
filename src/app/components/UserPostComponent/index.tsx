@@ -16,7 +16,7 @@ interface Props {
   body: string;
 }
 const postUrl = "https://jsonplaceholder.typicode.com/posts?userId=";
-const UserPosts = () => {
+const UserPostComponent = () => {
   const params = useParams();
   const newParams = useSearchParams();
   const pathName = usePathname();
@@ -141,4 +141,4 @@ const UserPosts = () => {
   );
 };
 
-export default UserPosts;
+export default UserPostComponent;

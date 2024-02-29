@@ -15,7 +15,7 @@ const Pagination = ({ pageCount, ip }: PaginationProps) => {
 
   const handlePageChange = (selectedPage: { selected: number }) => {
     // Update the URL with the new page number as a query parameter
-    router.push(`/dashboard/user-posts/?page=${selectedPage.selected + 1}`);
+    router.push(`/user-posts/?page=${selectedPage.selected + 1}`);
   };
   return (
     <ReactPaginate

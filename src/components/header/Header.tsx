@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
-import SessionClient from "../SessionClient";
+import SessionClient from "../../app/components/SessionClient";
 
 const Header = async () => {
   return (
