@@ -14,11 +14,11 @@ const handler = NextAuth({
   },
   providers: [
     CredentialsProvider({
-      name: "credentials",
-      // type: "credentials",
+      // name: "credentials",
+      type: "credentials",
       credentials: {},
       async authorize(credentials: MyCredentials) {
-        const { email } = credentials;
+        const { email }: any = credentials;
         if (!email) {
           return null;
         }
@@ -44,7 +44,7 @@ const handler = NextAuth({
           if (user.length === 0 && user[0].email === "" && !user[0].email) {
             return null;
           }
-          console.log("user-------------------", user[0].email);
+          console.log("user-------------------", user);
           return { email: user[0].email };
         } catch (error) {
           console.error("Error fetching user data:", error);

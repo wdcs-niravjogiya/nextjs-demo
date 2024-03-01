@@ -1,4 +1,4 @@
-import Pagination from "@/components/pagination/Pagination";
+import Pagination from "@/app/components/pagination/Pagination";
 import React, { useState } from "react";
 
 interface Props {

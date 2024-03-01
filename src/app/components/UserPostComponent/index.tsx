@@ -1,6 +1,6 @@
 "use client";
-import PaginationControls from "@/components/PaginationControls";
-import Pagination from "@/components/pagination/Pagination";
+import PaginationControls from "@/app/components/PaginationControls";
+import Pagination from "@/app/components/pagination/Pagination";
 import axios from "axios";
 import {
   useParams,
