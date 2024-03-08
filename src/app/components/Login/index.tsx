@@ -4,8 +4,17 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import SessionClient from "@/app/components/SessionClient";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+interface IFormInput {
+  currentTarget: HTMLFormElement | undefined;
+  email: string;
+}
 const userURL = "https://jsonplaceholder.typicode.com/users?email=";
 const LoginComponent = () => {
+  const { register, handleSubmit } = useForm<IFormInput>();
   const [user, setUser] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [error, setError] = useState("");
@@ -29,14 +38,11 @@ const LoginComponent = () => {
     localStorage.setItem("userData", value);
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     fetchUserData();
 
-    console.log("Signing in...");
     try {
-      const formData = new FormData(e.currentTarget);
-      const email = formData.get("email") as string;
+      const email = data.email;
       const res = await signIn("credentials", {
         email,
         redirect: false,
@@ -45,14 +51,14 @@ const LoginComponent = () => {
       console.log("Signing in", res);
       if (res?.error) {
         setError("Email does not exist");
-      }
-
-      if (userInput.trim() !== "") {
-        router.push("/dashboard");
-        router.refresh();
       } else {
-        setError("Email is required");
-        router.push("/");
+        if (userInput.trim() !== "") {
+          await router.push("/dashboard");
+          await router.refresh();
+        } else {
+          setError("Email is required");
+          await router.push("/");
+        }
       }
     } catch (err) {
       console.log("catch Signing in", err);
@@ -82,10 +88,7 @@ const LoginComponent = () => {
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
               </div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-                {/* <div className="text-blueGray-400 text-center mb-3 font-bold">
-                  <small>Or sign in with credentials</small>
-                </div> */}
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="relative w-full">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -94,8 +97,8 @@ const LoginComponent = () => {
                       Email*
                     </label>
                     <input
+                      {...register("email")}
                       type="email"
-                      // value={userInput}
                       onChange={handleOnChange}
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Email"

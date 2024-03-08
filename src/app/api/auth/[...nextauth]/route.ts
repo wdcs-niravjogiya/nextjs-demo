@@ -1,9 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-interface MyCredentials {
-  email: string;
-}
 const handler = NextAuth({
   session: {
     strategy: "jwt",
@@ -13,11 +10,10 @@ const handler = NextAuth({
   },
   providers: [
     CredentialsProvider({
-      // name: "credentials",
       type: "credentials",
       credentials: {},
       async authorize(credentials: any) {
-        const { email }: any = credentials;
+        const { email } = credentials;
         if (!email) {
           return null;
         }
@@ -37,7 +33,7 @@ const handler = NextAuth({
             return null;
           }
           console.log("user-------------------", user);
-          return user;
+          return { email: user[0].email };
         } catch (error) {
           console.error("Error fetching user data:", error);
           return null;
