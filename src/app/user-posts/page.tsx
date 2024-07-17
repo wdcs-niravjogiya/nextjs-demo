@@ -1,7 +1,5 @@
 import UserPostComponent from "../components/UserPostComponent";
 
-const UserPosts = () => {
-  return <UserPostComponent />;
-};
+const UserPosts = () => <UserPostComponent />;
 
 export default UserPosts;

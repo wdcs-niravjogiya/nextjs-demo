@@ -20,10 +20,11 @@ export default function DashboardCards() {
   const [userPost, setUserPost] = useState<User[]>([]);
   const [userAlbum, setUserAlbum] = useState([]);
   const [userTodos, setUserTodos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const notifySuccess = () => toast.success("API call successfull!");
   const notifyError = () => toast.error("API call failed!");
   const router = useRouter();
+
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
     const parsedUserData = storedUserData ? JSON.parse(storedUserData) : [];

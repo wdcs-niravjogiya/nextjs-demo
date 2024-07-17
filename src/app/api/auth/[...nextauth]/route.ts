@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+import { API_LIST } from "@/util/constant";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -18,9 +20,7 @@ const handler = NextAuth({
           return null;
         }
         try {
-          const authResponse = await fetch(
-            `https://jsonplaceholder.typicode.com/users?email=${email}`
-          );
+          const authResponse = await fetch(`${API_LIST.USER_DETAIL}${email}`);
           console.log("API Response Status:", authResponse.status);
 
           if (!authResponse.ok) {
@@ -29,7 +29,7 @@ const handler = NextAuth({
           }
 
           const user = await authResponse.json();
-          if (user.length === 0 && user[0].email === "" && !user[0].email) {
+          if (user.length === 0 && user.email === "" && !user.email) {
             return null;
           }
           console.log("user-------------------", user);

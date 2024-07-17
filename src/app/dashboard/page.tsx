@@ -1,8 +1,6 @@
 import React from "react";
 import DashboardCards from "../components/DasboardCards";
 
-const Dashboard = () => {
-  return <DashboardCards />;
-};
+const Dashboard = () => <DashboardCards />;
 
 export default Dashboard;

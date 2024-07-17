@@ -7,14 +7,11 @@ import {
   getSortedRowModel,
 } from "@tanstack/react-table";
 import axios from "axios";
-import {
-  useParams,
-  useSearchParams,
-  useRouter,
-  usePathname,
-} from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { columnData } from "./columns";
+import { API_LIST } from "@/util/constant";
+import PaginationControls from "../PaginationControls";
 
 export type UserPost = {
   UserId: number;
@@ -23,7 +20,6 @@ export type UserPost = {
   body: string;
 };
 
-const postUrl = "https://jsonplaceholder.typicode.com/posts?userId=";
 const UserPostComponent = () => {
   const newParams = useSearchParams();
   const [loading, setLoading] = useState(true);
@@ -49,7 +45,9 @@ const UserPostComponent = () => {
       try {
         if (parsedUserData.length > 0) {
           const userId = parsedUserData[0]?.id;
-          const userPostData = await axios.get(`${postUrl}${userId}`);
+          const userPostData = await axios.get(
+            `${API_LIST.USER_POST}${userId}`
+          );
           const userPost = await userPostData.data;
           setUserPost(userPost);
           setLoading(false);
@@ -65,7 +63,7 @@ const UserPostComponent = () => {
       }
     };
     fetchData();
-  }, [currentPage, router]);
+  }, []);
   const [sorting, setSorting] = useState([]);
   const data = userPost;
   const columns = columnData;
@@ -150,7 +148,12 @@ const UserPostComponent = () => {
               </div>
             </div>
           </div>
-          <div className="pagination_controls">
+          <PaginationControls
+            totalPages={totalPages}
+            hasPrevPage={undefined}
+            hasNextPage={undefined}
+          />
+          {/* <div className="pagination_controls">
             <button
               className={`${
                 !table.getCanPreviousPage() ? "disabled" : "active"
@@ -180,7 +183,7 @@ const UserPostComponent = () => {
               Last
             </button>
             <button onClick={() => table.setPageSize(2)}>Page</button>
-          </div>
+          </div> */}
         </div>
       )}
     </>
