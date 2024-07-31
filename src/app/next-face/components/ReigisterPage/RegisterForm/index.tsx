@@ -3,24 +3,31 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { registerAction } from "./action";
+import { ToastContainer, toast } from "react-toastify";
 
-const RegisterForm = async () => {
-  const [responseMessage, setResponseMessage] = useState("");
-
+const RegisterForm = () => {
+  const [response, setResponse] = useState("");
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     try {
       const resData = await registerAction(formData);
       console.log("Register response:", resData);
-      setResponseMessage(resData.message || "Registration successful");
+      setResponse(resData || "Registration successful");
+      if (resData.success === true) {
+        toast.success(resData.message);
+      } else {
+        toast.error(resData.message);
+      }
     } catch (error) {
-      setResponseMessage("Registration failed");
+      toast.error("Registration failed");
       console.error("Registration error:", error);
     }
   };
   return (
     <form onSubmit={handleSubmit}>
+      <ToastContainer />
+
       <div className="relative w-full mb-4">
         <label
           className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -70,7 +77,13 @@ const RegisterForm = async () => {
         />
       </div>
       <div className="">
-        <div className="text-red-500 mt-1 mb-2">{responseMessage}</div>
+        {/* <div
+          className={`${
+            response.success === true ? "text-green-500" : "text-red-500"
+          } mt-1 mb-2`}
+        >
+          {response.message}
+        </div> */}
 
         <button
           className="bg-black text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"

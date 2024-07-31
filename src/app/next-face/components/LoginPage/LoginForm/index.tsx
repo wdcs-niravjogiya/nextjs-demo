@@ -1,31 +1,41 @@
+"use client";
+import { TOAST } from "@/app/constants/commanConstants";
+import Notification from "@/app/services/notificaation";
 import Link from "next/link";
-import React, { FormEvent } from "react";
-
-interface IFormInput {
-  // currentTarget: HTMLFormElement | undefined;
-  email: string;
-}
-async function loginAction(formData: FormData) {
-  "use server";
-  const email = formData.get("email");
-  const password = formData.get("password");
-  const username = formData.get("username");
-  const data = { email, password, username };
-
-  const res = await fetch("https://api.freeapi.app/api/v1/users/register", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const resData = await res.json();
-  console.log("resData-------", resData);
-}
+import { useRouter } from "next/navigation";
+import React from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 const LoginForm = () => {
+  const router = useRouter();
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const data = { email, password };
+
+    const res = await fetch("https://api.freeapi.app/api/v1/users/login", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const resData = await res.json();
+    if (resData.success === true) {
+      Notification({ type: TOAST.SUCCESS, message: resData.message });
+      // toast.success(resData.message);
+      router.push("/next-face/play-list");
+    } else {
+      Notification({ type: TOAST.ERROR, message: resData.message });
+    }
+    console.log("resData-------", resData);
+    localStorage.setItem("user", JSON.stringify(resData));
+  };
   return (
-    <form action={loginAction}>
+    <form onSubmit={handleSubmit}>
+      <ToastContainer />
       <div className="relative w-full mb-4">
         <label
           className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
