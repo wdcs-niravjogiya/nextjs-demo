@@ -25,9 +25,7 @@ const PaginationControls = ({
   const handlePrev = () => {
     const prevPage = Number(page) - 1;
     if (prevPage >= 1) {
-      router.push(
-        `/dashboard/user-posts/?page=${prevPage}&per_page=${per_page}`
-      );
+      router.push(`/user-posts/?page=${prevPage}&per_page=${per_page}`);
     }
   };
 
@@ -47,7 +45,7 @@ const PaginationControls = ({
 
   const handleNext = () => {
     const nextPage = Number(page) + 1;
-    router.push(`/dashboard/user-posts/?page=${nextPage}&per_page=${per_page}`);
+    router.push(`/user-posts/?page=${nextPage}&per_page=${per_page}`);
   };
 
   const [value, setValue] = useState(per_page);
@@ -57,7 +55,7 @@ const PaginationControls = ({
       page = 1;
     }
     setValue(selectedValue);
-    router.push(`/dashboard/user-posts?page=${page}&per_page=${selectedValue}`);
+    router.push(`/user-posts?page=${page}&per_page=${selectedValue}`);
     console.log("value", selectedValue);
   };
 
@@ -75,7 +73,7 @@ const PaginationControls = ({
           <Link
             key={pageNum}
             className={`${pageNum == page ? "active" : ""}`}
-            href={`/dashboard/user-posts/?page=${pageNum}&per_page=${per_page}`}
+            href={`/user-posts/?page=${pageNum}&per_page=${per_page}`}
           >
             {pageNum}
           </Link>

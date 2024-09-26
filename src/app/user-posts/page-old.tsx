@@ -1,5 +1,6 @@
 "use client";
-import Pagination from "@/components/pagination/Pagination";
+import Pagination from "@/app/components/pagination/Pagination";
+import { API_LIST } from "@/util/constant";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -8,7 +9,6 @@ interface Props {
   title: string;
   body: string;
 }
-const postUrl = "https://jsonplaceholder.typicode.com/posts?userId=";
 const UserPosts = ({ searchParams }: any) => {
   let currentPage: number = 1;
   const dataPerPage: number = 5;
@@ -22,7 +22,7 @@ const UserPosts = ({ searchParams }: any) => {
         const parsedUserData = storedUserData ? JSON.parse(storedUserData) : [];
         console.log("parsedUserData", parsedUserData);
         const userId = parsedUserData[0]?.id;
-        const res: Response = await fetch(`${postUrl}${userId}`);
+        const res: Response = await fetch(`${API_LIST.USER_POST}${userId}`);
         const data = await res.json();
         setUserPost(data);
         if (Number(searchParams.page) >= 1) {
@@ -103,7 +103,7 @@ const UserPosts = ({ searchParams }: any) => {
             </table>
           </div>
         </div>
-        {/* <Pagination pageCount={totalPages} /> */}
+        <Pagination pageCount={totalPages} />
       </div>
     </div>
   );

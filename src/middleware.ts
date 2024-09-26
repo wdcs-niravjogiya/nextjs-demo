@@ -8,7 +8,7 @@ export { default } from "next-auth/middleware";
 // };
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/dashboard/user-posts"],
+  matcher: ["/dashboard", "/user-posts"],
 };
 
 // export default middleWre;
